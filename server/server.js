@@ -11,14 +11,18 @@ const app = express();
 app.use(cors());
 
 ///^^^
-app.use("/api/clerk", express.raw({ type: "application/json" }));
+app.post(
+	"/api/clerk",
+	express.raw({ type: "application/json" }),
+	clerkWebhooks
+);
 
 //^ middleware
 app.use(express.json());
 app.use(clerkMiddleware());
 
 //^ api to listen for clerk webhooks
-app.post("/api/clerk", clerkWebhooks);
+// app.post("/api/clerk", clerkWebhooks);
 
 app.get("/", (request, response) => response.send("API is working, yo"));
 
