@@ -1,6 +1,12 @@
 import User from "../models/User.js";
 import { Webhook } from "svix";
 
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+};
+
 const clerkWebhooks = async (request, response) => {
 	// creating svix instance with clerk webhook secret
 	try {
