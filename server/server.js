@@ -1,4 +1,4 @@
-import express from "express";
+import express, { request, response } from "express";
 import "dotenv/config";
 import cors from "cors";
 import connectDB from "./config/db.js";
@@ -11,18 +11,14 @@ const app = express();
 app.use(cors());
 
 ///^^^
-app.post(
-	"/api/clerk",
-	express.raw({ type: "application/json" }),
-	clerkWebhooks
-);
+app.use("/api/clerk", express.raw({ type: "application/json" }));
 
 //^ middleware
 app.use(express.json());
 app.use(clerkMiddleware());
 
 //^ api to listen for clerk webhooks
-// app.use("/api/clerk", clerkWebhooks);
+app.post("/api/clerk", clerkWebhooks);
 
 app.get("/", (request, response) => response.send("API is working, yo"));
 
