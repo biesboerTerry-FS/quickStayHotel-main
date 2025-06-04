@@ -10,13 +10,6 @@ connectDB();
 const app = express();
 app.use(cors());
 
-///^^^
-app.post(
-	"/api/clerk",
-	express.raw({ type: "application/json" }),
-	clerkWebhooks
-);
-
 //^ middleware
 app.use(express.json());
 app.use(clerkMiddleware());
