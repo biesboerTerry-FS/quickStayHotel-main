@@ -5,8 +5,7 @@ const connectDB = async () => {
 		mongoose.connection.on("connected", () =>
 			console.log("Database Connected, yo")
 		);
-		// await mongoose.connect(`${process.env.MONGODB_URI}/quickstay`);
-		await mongoose.connect(`${process.env.MONGODB_URI}/quick-stay`);
+		await mongoose.connect(`${process.env.MONGODB_URI}/quickstay`);
 	} catch (error) {
 		console.log(error.message);
 	}

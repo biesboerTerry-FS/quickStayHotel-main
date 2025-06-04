@@ -1,12 +1,6 @@
 import User from "../models/User.js";
 import { Webhook } from "svix";
 
-export const config = {
-	api: {
-		bodyParser: false,
-	},
-};
-
 const clerkWebhooks = async (request, response) => {
 	// creating svix instance with clerk webhook secret
 	try {
@@ -19,15 +13,11 @@ const clerkWebhooks = async (request, response) => {
 			"svix-signature": request.headers["svix-signature"],
 		};
 
-		///^^^
-		const evt = await webHook.verify(request.body, headers);
-		const { data, type } = evt;
-
 		// verifying headers
-		// await webHook.verify(JSON.stringify(request.body), headers);
+		await webHook.verify(JSON.stringify(request.body), headers);
 
 		// extracting data from request.body
-		// const { data, type } = request.body;
+		const { data, type } = request.body;
 
 		// create user
 		const userData = {
@@ -45,15 +35,12 @@ const clerkWebhooks = async (request, response) => {
 				break;
 			}
 			case "user.updated": {
-				// await User.findByIdAndUpdate( data._id, userData );
-				await User.findByIdAndUpdate(data.id, userData);
-
+				await User.findByIdAndUpdate(data._id, userData);
 				console.log("User updated");
 				break;
 			}
 			case "user.deleted": {
-				// await User.findByIdAndDelete(data._id);
-				await User.findByIdAndDelete(data.id);
+				await User.findByIdAndDelete(data._id);
 				console.log("User deleted");
 				break;
 			}
